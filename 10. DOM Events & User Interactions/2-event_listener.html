@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>click</button>
+    <ul>
+        <li>clicking on it will trigger hii on console</li>
+        <li>clicking on it will trigger hii on console</li>
+        <li>clicking on it will trigger hii on console</li>
+        <li>clicking on it will trigger hii on console</li>
+        <li>clicking on it will trigger hii on console</li>
+        <li>clicking on it will trigger hii on console</li>
+    </ul>
+</body>
+<script>
+    // Part 1 — Understanding DOM Events and the onclick Concept
+    // JavaScript waits for something to happen. When it happens, a function runs. This function is called an event handler. 
+    // Before handling events, JavaScript must know which element we are talking about.
+    let btn = document.querySelector('button') // button object. This object has many properties and methods.
+    console.dir(btn) // see all properties and methods.
+
+    // 1) "Event" = something that happens (click, input, keydown...). It's NOT a property or method.
+    // 2) The element has event-handler PROPERTIES like btn.onclick. These properties can store a function.
+    // 3) When the event happens, the browser calls the function stored in that handler (that's the event handler).
+    // 4) Another way is btn.addEventListener('click', handlerFn) — addEventListener is a method used to register handlers.
+    // 5) Inside the handler, the browser passes an event object (often named e/event) with details about what happened.
+
+    // let's discuss some event properties of an element object
+    // The onclick Property. 
+    console.log(btn.onclick) // null as no event handler is attached to it
+    // we can assign an event handler function that will executes on onClick. Click happens → onclick triggers → function runs
+    // btn.onclick = console.log('clicked') // will not work that way
+    btn.onclick = function() {
+        console.log('button is clicked')
+    }
+    // we can also store function reference in onClick instead of declaring in it. it is a better practice to follow. 
+    let sayHello = function() {
+        console.log('hello')
+    }
+    btn.onclick = sayHello // we can also work like that. what we see is that JS override the existing event handler with this new declaration. so we can just give one event handler for a particular event and as js runs from top to bottom, those who comes last will be final one.
+    // this way support code reusability and can be applied to many elements. we can basically selects multiple similar elements and apply the event handler by loop
+    let list = document.querySelectorAll('li')
+    for (let li of list) {
+        let sayHii = function() {
+            console.log('Hii')
+        }
+        li.onclick = sayHii
+        li.onmouseenter = function() {
+            console.log(`mouse entered in zone of li`)
+        }
+    } // works well even with other elements, not just buttons
+    // onmouseenter event when ur mouse pointer in the element zone. 
+
+
+
+    // Part 2 — Why onclick is Limited & Introduction to Event Listeners
+
+    // why previous approach is not enough in real applications, and why developers use event listeners instead.
+
+    // when we use onClick, we can run only one function at a time. Think of onclick like a single slot. The Solution — Event Listeners. addEventListener(). This method allows an element to listen for events. The element waits for an event, and when it happens, it runs a function. element.addEventListener(event, callbackFunction);
+    // eventname can be click, mouseenter and so. Callback Function runs when event happens. callback is basically a function passed inside another function. so addeventlistener is main function and function inside it is callback.   
+    btn.addEventListener('click', function() {
+        console.log('button has been clicked') // it does not override onclick way that we used before. so both will applied when button clicked.
+    })
+    // we can have multiple event listener using addeventlistener
+    btn.addEventListener('click', function() {
+        console.log('this should also work as another eventlistener')
+    }) // works. Both execute one after another as js runs from top to bottom. This was impossible with onclick.
+    // so with that way, one event can have multiple event handler functions and that executes from top to bottom and execute all. Multiple actions on same event. 
+    // we can even select elements and apply this method to each one using loop. we need to give event name properly to run this one. 
+
+
+
+    // Part 3 — Types of Events & How Events Are Used in Real Applications
+
+    // different types of events and how developers actually think while using them in real projects. events represent almost every interaction between user and webpage. Events are grouped into categories. Main Categories You Should Know - 
+
+    // Mouse Events - Triggered by mouse actions. click, dblclick, mouseenter (mouse enters element), mouseleave → mouse leaves element, mousemove → mouse moves over element, mousedown → mouse button pressed, mouseup → mouse button released. 
+
+    // Keyboard Events = keydown, keyup, keypress. 
+    // Form Events = Used with inputs and forms. submit, change, input, focus, blurr. 
+    // A modern web app is basically:- User action → Event → JavaScript reaction. Without events, JavaScript cannot respond to users. 
+    btn.addEventListener('dblclick', function() {
+        console.log('You double clickked on button') // works. when we double clicked it, it runs both event of click and double click also. Two fast clicks → event triggers. 2 times click after a short gap will not work.
+    })
+    // Use case = Single click → select item, Double click → open item. file managers, editors, dashboards. 
+
+    // Mouse Enter vs Mouse Leave. when hover pointer and leave over that element
+    btn.addEventListener("mouseenter", function() {
+        console.log("Mouse entered");
+    });
+    btn.addEventListener("mouseleave", function() {
+        console.log("Mouse left");
+    });
+    // Use case = Button hover effects, Tooltips, Image previews on X when hover on profile. 
+    // How Developers Think = not "Which event should I learn?", but "What action should happen when the user does something?". event means user behaviour action by JS. Events are chosen based on user behavior. JavaScript + Events → Behavior. Every modern framework (React, Vue, Angular) is built on top of this same event system internally. 
+</script>
+</html>

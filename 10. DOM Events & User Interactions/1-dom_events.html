@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- testing inline event handling -->
+    <button onclick="console.log('button is clicked'); console.log('another statement')">click</button>
+</body>
+<script>
+    // A DOM event is simply a signal that something happened on a web page. like A user clicking a button, Typing inside an input field, Submitting a form, Moving the mouse, Pressing a keyboard key. basically any form of user interaction with webpage happens.
+
+    // An event means an action or occurrence detected by the browser.The browser keeps watching what the user is doing. Whenever something happens, it generates an event.
+
+    // there are event name for events. Events allow JavaScript to say - “When this happens → do this action.”. When button is clicked → show message
+    // Basic Flow of Events = User Action → Event Triggered → JavaScript Runs. telling the browser “If this event happens, run this code.”. 
+
+    // Inline Event Handling (First and Basic Method). when button clicked, message will appear on console. onclick is an event attribute that listens for a click event. When clicked → JavaScript inside it runs. multiple click will trigger the event multiple times. we can also write multiple JS statement using ; . So an event can trigger many actions. 
+    // it is a good idea to do as an experiment, but is not scalable. mixing html and js. 
+</script>
+</html>

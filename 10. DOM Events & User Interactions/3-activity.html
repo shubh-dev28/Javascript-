@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            height: 200px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Generate a random color</h1>
+    <button>Generate color</button>
+    <div></div>
+</body>
+<script>
+    // The real goal is to understand how JavaScript reacts to user actions using event listeners. We want a simple page with three things:- A heading (H3) → shows the RGB value of a color. A button → generates a new random color when clicked. A div box → its background changes to that color. 
+    // User clicks the button, A random color is generated, The heading text updates with that color value, The div background changes to that same color, Every click generates a new color. 
+    // this is Event-driven programming. Dynamic UI updates means Instead of refreshing the page, JavaScript updates only parts of the page. 
+    // So to create a random color, we just need three random numbers between 0 and 255.
+    // we create a getRandomColor Function. 
+    function getRandomColor() {
+        let r = Math.floor(Math.random() * 256);
+        let g = Math.floor(Math.random() * 256);
+        let b = Math.floor(Math.random() * 256);
+        let color = `rgb(${r}, ${g}, ${b})`;
+        return color;
+}
+let btn = document.querySelector('button')
+let h1 = document.querySelector('h1')
+let div = document.querySelector('div')
+btn.addEventListener('click', function() {
+    h1.innerText = `${getRandomColor()} is the random color generated`
+    div.style.backgroundColor = `${getRandomColor()}`
+})
+// see each click generate a new random color and it works well
+</script>
+</html>
