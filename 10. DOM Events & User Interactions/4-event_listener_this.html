@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>Click</button>
+    <ul>
+        <li>one</li>
+        <li>two</li>
+        <li>three</li>
+        <li>four</li>
+    </ul>
+</body>
+<script>
+    // Part 1 — Event Listeners on Multiple Elements & Understanding this in Event Handlers function
+    // Events belong to elements, not buttons. they can be used on any HTML element. even we can add events to entire documents. 
+
+    // Introduction to this Inside Event Listeners
+    // Inside an event listener callback, JavaScript automatically gives you access to the element object that triggered the event. This element is available using this keyword.
+    let btn = document.querySelector('button')
+    btn.addEventListener('click', function() {
+        console.log(this) // it will print the button. Inside an event listener callback, this refers to the element on which the event occurred.
+        console.log(this.innerText) // works
+        this.style.backgroundColor = 'yellow' // apply object property. works
+    })
+    // experiment with list. this clears everything
+    let list = document.querySelectorAll('li')
+    for (let item of list) {
+        item.addEventListener('click', function() {
+            if (item.innerText === 'two') {
+                this.style.color = 'pink'
+                this.style.backgroundColor = 'blue'
+            } else{
+                console.log(this) // it will show the item which was clicked
+                this.style.color = 'green'
+                this.style.backgroundColor = 'yellow'
+            }
+        })
+    }
+    // we can use this to access all properties that applied on an element object. 
+
+
+
+    // Part 2 — Using One Function for Multiple Elements & Writing Cleaner Event Listener Code. 
+    // problem to solve - we have many elements on the page. When any element is clicked, Its background becomes blue and Its text is printed in console. we have an approach to set each with event listener but for newbie. but we want to follow DRY principal with no redundancy. 
+    // The Better Approach — One Function
+    function changeColor() {
+        console.log(this.innerText);
+        this.style.backgroundColor = "blue";
+    } // we will attch this function as a callback of eventListener to each elements. the value of this will change for each element object click and so works better. the event listener decides what this is. this is clean code and reduce bugs. 
+</script>
+</html>
