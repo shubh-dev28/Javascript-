@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>click</button>
+    <input type="text" placeholder="Type something">
+    <input class="new-input" type="text" placeholder="a new input box">
+</body>
+<script>
+    // Part 1 (Foundation + Event Object Understanding)
+
+    // When a user presses any key, That signal is called a keyboard event.
+
+    // Event Object = Whenever an event happens, JavaScript automatically sends an event object to the callback function. The event object contains information about what happened. like which element was clicked, mouse position, event type, pointer type (mouse, touch, pen) and so. 
+    let btn = document.querySelector('button')
+    btn.addEventListener('click', function(event) {
+        console.log(event) // pointerevent. it is basically A report describing the event. 
+        console.log(event.type, event.pointerType) // click touch. properties of that event. 
+    })
+    // If you click a button, then PointerEvent. If you press a key, KeyboardEvent. The browser automatically changes the event type based on input source. 
+
+    // Keyboard Event Setup
+    // keydown will trigger when we type any word inside input element
+    let input = document.querySelector("input");
+    input.addEventListener("keydown", function(event) {
+    console.log("Key was pressed"); // each word typed inside input will trigger event
+    });
+
+    // Main Keyboard Events = keydown Fires when key is pressed down. keyup Fires when key is released. Hold A → nothing happens yet, Release A → keyup fires. detecting key release. keypress is not recomended now. 
+    input.addEventListener('keyup', function(event) {
+        console.log(event) // keyboard event. it has many properties.
+        console.log(event.key) // tells which key is release
+        console.log(event.code) // tells The physical key on the keyboard. "Space", "Enter" like.
+        console.log('key released') // works
+    })
+
+    // note = Keyboard events trigger for every key, not just letters. any key including esc, backspace, space will trigger the keyboard event. we need to specify to work with particular key event. like this should happen when k pressed. 
+    input.addEventListener('keyup', function(event) {
+        if (event.key === 'k') {
+            console.log('k is pressed')
+        }
+        if (event.code === 'Enter') {
+            console.log('Enter is pressed')
+        }
+    }) // everything works as expected
+    // key → what appears on screen. code → which physical button was pressed. Shift + / → gives ?. so ? appear on screen and get handled by key. key = "?". code = "Slash". this is something good to experiment. 
+
+
+
+    // Part 2 (Tracking Keys & Real Practical Usage)
+    // Detecting Which Key Was Pressed. ArrowUp → move character forward. ArrowLeft → move left. Escape → close popup. 
+    // we have to handle multiple possibility. we work only with arrow keys and nothing will happen with other keys.
+    let newInput = document.querySelector('.new-input')
+    newInput.addEventListener("keydown", function(event) {
+    if (event.code === "ArrowUp") {
+        console.log("Character moves forward");
+    }
+    else if (event.code === "ArrowDown") {
+        console.log("Character moves backward");
+    }
+    else if (event.code === "ArrowLeft") {
+        console.log("Character moves left");
+    }
+    else if (event.code === "ArrowRight") {
+        console.log("Character moves right");
+    }
+    });
+    // this is how exactly games work through keyboard navigation works. 
+    // event.code Is Often Better Than event.key. because event.key will show what appear on screen. If you rely on key, the value changes based on Shift, keyboard layout, language etc. code stays constant because it represents the physical key. like 'slash'. for Shift + /, event.key is "?", but event.code is "Slash" is better.
+    // it is a better idea to handle things through conditional or else multiple events can happens. 
+
+
+
+    // Part 3 (Professional Usage, Best Practices & Real-World Thinking). how keyboard events are used properly in real applications
+
+    // Most Common Beginner Problem - Every key press runs logic again and again very fast. when a key is held down, keyboard keeps sending signals continuously and event is continiously triggered. sometimes unwanted. Use keyup when you only want action once after release. so keydown fires continuously while key held and keyup fires once when key released. 
+
+    // Handling Multiple Keys Together. like Ctrl + S → Save. Keyboard event object gives special properties like event.shiftKey, event.ctrlKey, event.altKey, event.metaKey. 
+    // here we are adding eventlistener to whole document
+    document.addEventListener("keydown", function(event) {
+        if (event.ctrlKey && event.code === "KeyS") {
+            event.preventDefault() // Now browser action stops, your logic runs.
+            console.log("Save triggered");
+        } else if (event.shiftKey && event.code === 'Slash') {
+            console.log('shift and / pressed')
+        } 
+    }); // works. both keys need to be pressed to work.
+
+    // Sometimes browser already has a default action on an event. like Ctrl + S → opens save page dialog by default or Arrow keys → scroll page. If you want custom behavior, you stop default action by giving event.preventDefault(); 
+    // we can attach keyboard event to forms or whole document in general. 
+</script>
+</html>
